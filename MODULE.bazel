@@ -1,0 +1,44 @@
+# ===-----------------------------------------------------------------------===#
+# Distributed under the 3-Clause BSD License. See accompanying file LICENSE or
+# copy at https://opensource.org/licenses/BSD-3-Clause.
+# SPDX-License-Identifier: BSD-3-Clause
+# ===-----------------------------------------------------------------------===#
+
+"""
+Oxygen Game Engine.
+"""
+
+module(
+    name = "oxygen-game-engine",
+    version = "1.0.0",
+    compatibility_level = 1,
+)
+
+http_archive = use_repo_rule("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
+
+bazel_dep(name = "platforms", version = "0.0.10")
+bazel_dep(name = "spdlog", version = "1.14.1")
+bazel_dep(name = "fmt", version = "11.0.2")
+bazel_dep(name = "gsl", version = "4.0.0")
+
+bazel_dep(name = "googletest", version = "1.15.2", dev_dependency = True)
+
+http_archive(
+    name = "sigslot",
+    build_file = "//third_party/sigslot:BUILD.bazel",
+    sha256 = "1AB215E0A9C71101C87F3FC6F1274FC56C711FE38B78E05F2D4BC97A40466F28",
+    strip_prefix = "sigslot-1.2.2",
+    urls = [
+        "https://github.com/palacaze/sigslot/archive/refs/tags/v1.2.2.zip",
+    ],
+)
+
+http_archive(
+    name = "sdl3",
+    build_file = "//third_party/sdl:BUILD.bazel",
+    sha256 = "E6E3E2B41EFFC1AC30347166DE83272BE6BDDDB56ADC3DA7BF4AEBCD347AFFB3",
+    strip_prefix = "SDL3-3.1.3",
+    urls = [
+        "https://github.com/libsdl-org/SDL/releases/download/preview-3.1.3/SDL3-devel-3.1.3-VC.zip",
+    ],
+)
