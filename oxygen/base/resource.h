@@ -7,6 +7,7 @@
 #pragma once
 
 #include "oxygen/base/resource_handle.h"
+#include "oxygen/world/types.h"
 
 namespace oxygen {
 
@@ -14,9 +15,25 @@ namespace oxygen {
  * A graphics API agnostic POD structure representing different types of
  * resources that get linked to their counterparts on the core backend.
  */
-class Resource {
+template <ResourceHandle::ResourceTypeT ResourceType> class Resource {
 public:
-  ResourceHandle handle;
+  constexpr explicit Resource(ResourceHandle handle)
+      : handle_(std::move(handle)) {
+    assert(handle_.ResourceType() == ResourceType);
+  }
+  constexpr Resource() = default;
+
+  [[nodiscard]] constexpr auto GetId() const noexcept
+      -> const ResourceHandle & {
+    return handle_;
+  }
+
+  [[nodiscard]] virtual constexpr auto IsValid() const noexcept -> bool {
+    return handle_.IsValid();
+  }
+
+private:
+  ResourceHandle handle_;
 };
 
 } // namespace oxygen

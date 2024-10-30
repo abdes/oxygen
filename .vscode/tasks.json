@@ -4,10 +4,26 @@
     "version": "2.0.0",
     "tasks": [
         {
+            "label": "Build //oxygen/... (Debug)",
+            "type": "shell",
+            "command": "bazelisk",
+            "args": [
+                "build",
+                "//oxygen/...",
+                "-c",
+                "dbg"
+            ],
+        },
+        {
             "label": "Build //examples/input-system (Debug)",
             "type": "shell",
             "command": "bazelisk",
-            "args": ["build", "//examples/input-system", "-c", "dbg"],
+            "args": [
+                "build",
+                "//examples/input-system",
+                "-c",
+                "dbg"
+            ],
         }
     ]
 }

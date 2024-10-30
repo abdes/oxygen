@@ -4,11 +4,12 @@
 // SPDX-License-Identifier: BSD-3-Clause
 //===----------------------------------------------------------------------===//
 
-#pragma once
+// #include <contract/ut/gtest.h>
+// #include <logging/logging.h>
 
-#include "oxygen/base/resource_handle.h"
-#include "oxygen/engine-dll/api_export.h"
+#include "gtest/gtest.h"
 
-using namespace oxygen;
-
-OXYGEN_ENGINE_API ResourceHandle::HandleT CreateGameEntity();
+auto main(int argc, char *argv[]) -> int {
+  testing::InitGoogleTest(&argc, argv);
+  return RUN_ALL_TESTS();
+}

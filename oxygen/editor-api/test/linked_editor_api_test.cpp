@@ -6,9 +6,18 @@
 
 #include "gtest/gtest.h"
 
-#include "oxygen/engine-dll/api.h"
+#include "oxygen/editor-api/api.h"
 
 // NOLINTNEXTLINE
-TEST(LinkedEngineDllTest, CanUseApi) {
-  CreateGameEntity();
+TEST(LinkedEditorApiTest, CanUseApi) {
+  OxygenTransformCreateInfo transform_create_info{
+      .position = {0, 0, 0},
+      .rotation = {0, 0, 0},
+      .scale = {1, 1, 1},
+  };
+  OxygenGameEntityCreateInfo entity_create_info{
+      .transform = &transform_create_info,
+  };
+
+  CreateGameEntity(&entity_create_info);
 }
