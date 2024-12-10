@@ -1,7 +1,7 @@
 cc_library(
     name = "sigslot",
     hdrs = glob([
-        "include/sigslot/*.h",
+        "include/sigslot/*.hpp",
     ]),
     includes = ["include"],
     strip_include_prefix = "include",  # workaround: only needed on some macOS systems (see https://github.com/bazelbuild/bazel-central-registry/issues/1537)

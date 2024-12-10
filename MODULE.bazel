@@ -16,6 +16,7 @@ module(
 
 http_archive = use_repo_rule("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
 
+bazel_dep(name = "bazel_skylib", version = "1.7.1")
 bazel_dep(name = "platforms", version = "0.0.10")
 bazel_dep(name = "spdlog", version = "1.14.1")
 bazel_dep(name = "fmt", version = "11.0.2")
