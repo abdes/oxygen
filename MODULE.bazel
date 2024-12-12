@@ -26,29 +26,74 @@ bazel_dep(name = "googletest", version = "1.15.2", dev_dependency = True)
 
 http_archive(
     name = "sigslot",
-    build_file = "//third_party/sigslot:BUILD.bazel",
     sha256 = "1AB215E0A9C71101C87F3FC6F1274FC56C711FE38B78E05F2D4BC97A40466F28",
     strip_prefix = "sigslot-1.2.2",
     urls = [
         "https://github.com/palacaze/sigslot/archive/refs/tags/v1.2.2.zip",
     ],
+    build_file_content = """
+cc_library(
+    name = "sigslot",
+    hdrs = glob([
+        "include/sigslot/*.hpp",
+    ]),
+    includes = ["include"],
+    strip_include_prefix = "include",  # workaround: only needed on some macOS systems (see https://github.com/bazelbuild/bazel-central-registry/issues/1537)
+    visibility = ["//visibility:public"],
+)
+    """,
 )
 
 http_archive(
     name = "sdl3",
-    build_file = "//third_party/sdl:BUILD.bazel",
     sha256 = "E6E3E2B41EFFC1AC30347166DE83272BE6BDDDB56ADC3DA7BF4AEBCD347AFFB3",
     strip_prefix = "SDL3-3.1.3",
     urls = [
         "https://github.com/libsdl-org/SDL/releases/download/preview-3.1.3/SDL3-devel-3.1.3-VC.zip",
     ],
+    build_file_content = """
+cc_library(
+    name = "sdl3",
+    includes = ["include"],
+    strip_include_prefix = "include",  # workaround: only needed on some macOS systems (see https://github.com/bazelbuild/bazel-central-registry/issues/1537)
+    visibility = ["//visibility:public"],
+    deps = [":sdl3_lib"],
+)
+
+cc_import(
+    name = "sdl3_lib",
+    hdrs = glob(["include/SDL3/*.h"]),
+    # SDL3.lib is an import library for SDL3.dll which will be passed to linker
+    interface_library = "lib/x64/SDL3.lib",
+    # mylib.dll will be available for runtime
+    shared_library = "lib/x64/SDL3.dll",
+    visibility = ["//visibility:public"],
+)
+    """,
 )
 
 http_archive(
     name = "glm",
-    build_file = "//third_party/glm:BUILD.bazel",
     sha256 = "9A995DE4DA09723BD33EF194E6B79818950E5A8F2E154792F02E4615277CFB8D",
     urls = [
         "https://github.com/g-truc/glm/releases/download/1.0.1/glm-1.0.1-light.zip",
     ],
+    build_file_content = """
+cc_library(
+    name = "glm",
+    srcs = glob([
+        "glm/detail/*.hpp",
+        "glm/**/*.inl",
+    ]),
+    hdrs = glob([
+        "glm/*.hpp",
+        "glm/ext/*.hpp",
+        "glm/gtc/*.hpp",
+        "glm/gtx/*.hpp",
+        "glm/simd/*.h",
+    ]),
+    includes = ["."],
+    visibility = ["//visibility:public"],
+)
+    """,
 )
